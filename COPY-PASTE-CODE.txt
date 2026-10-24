@@ -1,0 +1,1099 @@
+================================================================
+ SARGAM - HINDI & PUNJABI MUSIC SITE
+ Copy-paste version (plain text)
+================================================================
+
+ HOW TO USE THIS FILE
+ --------------------
+ 1. Open a plain-text editor (VS Code is best, free from code.visualstudio.com)
+ 2. Select everything below the line that says "--- BEGIN CODE ---"
+ 3. Copy it  (Cmd+C)
+ 4. Paste into a new file  (Cmd+V)
+ 5. Save the file as:  index.html
+    - Make sure the name ends in .html, not .txt
+    - Encoding: UTF-8
+ 6. Double-click index.html - it opens in your browser
+
+ WARNING: do NOT use TextEdit in rich-text mode. It will save your file
+ as index.html.txt and the browser won't run it. If using TextEdit:
+ Format -> Make Plain Text  (Shift+Cmd+T) first.
+
+ The full working version is also included as index.html in this folder -
+ you can just double-click that instead and skip all of this.
+
+--- BEGIN CODE ---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sargam — Hindi & Punjabi Music</title>
+<style>
+  :root{
+    --ink:#08070c;
+    --ink2:#0d0b14;
+    --card:#141220;
+    --card-hi:#1c1928;
+    --line:rgba(255,255,255,.07);
+    --line-2:rgba(255,255,255,.12);
+    --txt:#f4f1ea;
+    --dim:#8d889c;
+    --dim2:#5f5a70;
+    --amber:#f5a524;
+    --rose:#f43f5e;
+    --grad:linear-gradient(135deg,#f5a524 0%,#f97362 55%,#f43f5e 100%);
+    --grad-soft:linear-gradient(135deg,rgba(245,165,36,.16),rgba(244,63,94,.16));
+    --shadow:0 18px 50px -12px rgba(0,0,0,.7);
+    --r:14px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{
+    margin:0;background:var(--ink);color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;overflow:hidden;
+  }
+  button{font-family:inherit}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-thumb{background:#26222f;border-radius:8px;border:2px solid var(--ink)}
+  ::-webkit-scrollbar-thumb:hover{background:#3a3446}
+  ::-webkit-scrollbar-track{background:transparent}
+
+  .app{display:grid;grid-template-columns:248px 1fr;height:100vh;padding-bottom:90px}
+
+  /* ---------------- sidebar ---------------- */
+  .sidebar{
+    background:linear-gradient(180deg,#0b0910 0%,#08070c 100%);
+    border-right:1px solid var(--line);
+    padding:20px 12px;display:flex;flex-direction:column;gap:22px;overflow-y:auto;
+  }
+  .brand{display:flex;align-items:center;gap:11px;padding:0 8px}
+  .logo{
+    width:36px;height:36px;border-radius:11px;background:var(--grad);
+    display:flex;align-items:center;justify-content:center;flex:0 0 auto;
+    box-shadow:0 6px 20px -6px rgba(245,165,36,.6);
+  }
+  .logo svg{width:19px;height:19px}
+  .brand-name{font-size:16px;font-weight:800;letter-spacing:-.4px}
+  .brand-sub{font-size:10.5px;color:var(--dim2);letter-spacing:.7px;text-transform:uppercase;font-weight:600}
+
+  .nav{display:flex;flex-direction:column;gap:2px}
+  .nav-label{font-size:10.5px;letter-spacing:1.1px;text-transform:uppercase;color:var(--dim2);font-weight:700;padding:0 10px;margin-bottom:8px}
+  .nav-item{
+    display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;
+    border:0;background:transparent;color:var(--dim);font-size:13.5px;font-weight:600;
+    cursor:pointer;text-align:left;width:100%;transition:.16s;position:relative;
+  }
+  .nav-item:hover{color:var(--txt);background:rgba(255,255,255,.045)}
+  .nav-item.on{color:var(--txt);background:rgba(245,165,36,.1)}
+  .nav-item.on::before{
+    content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);
+    width:3px;height:18px;border-radius:0 3px 3px 0;background:var(--grad);
+  }
+  .nav-item svg{width:17px;height:17px;flex:0 0 auto;opacity:.9}
+  .nav-item.on svg{color:var(--amber)}
+
+  .side-foot{margin-top:auto;padding:12px 10px 4px;border-top:1px solid var(--line);font-size:11px;color:var(--dim2);line-height:1.6}
+  .side-foot b{color:var(--dim);font-weight:600}
+
+  /* ---------------- main ---------------- */
+  .main{overflow-y:auto;position:relative;background:radial-gradient(1200px 500px at 80% -10%,rgba(244,63,94,.1),transparent 65%),radial-gradient(900px 420px at 10% -20%,rgba(245,165,36,.1),transparent 60%),var(--ink2)}
+  .main-inner{padding:0 0 40px}
+
+  .topbar{
+    position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:14px;
+    padding:16px 28px;backdrop-filter:blur(16px);
+    background:linear-gradient(180deg,rgba(13,11,20,.94),rgba(13,11,20,.72));
+    border-bottom:1px solid transparent;transition:.2s;
+  }
+  .topbar.scrolled{border-bottom-color:var(--line);background:rgba(11,9,16,.96)}
+  .search-wrap{position:relative;flex:1;max-width:440px}
+  .search-wrap svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--dim2)}
+  #search{
+    width:100%;padding:11px 14px 11px 40px;border-radius:11px;border:1px solid var(--line);
+    background:rgba(255,255,255,.045);color:var(--txt);font-size:13.5px;outline:none;transition:.18s;
+  }
+  #search::placeholder{color:var(--dim2)}
+  #search:focus{border-color:rgba(245,165,36,.5);background:rgba(255,255,255,.07);box-shadow:0 0 0 3px rgba(245,165,36,.08)}
+  .pill{
+    padding:9px 15px;border-radius:99px;border:1px solid var(--line);background:rgba(255,255,255,.04);
+    color:var(--dim);font-size:12.5px;font-weight:600;cursor:pointer;transition:.16s;white-space:nowrap;
+  }
+  .pill:hover{color:var(--txt);border-color:var(--line-2)}
+  .pill.on{background:var(--grad);border-color:transparent;color:#1a0d00}
+
+  /* hero */
+  .hero{
+    margin:8px 28px 26px;padding:34px 32px;border-radius:22px;position:relative;overflow:hidden;
+    background:linear-gradient(120deg,rgba(245,165,36,.14),rgba(244,63,94,.12) 60%,rgba(120,80,255,.08));
+    border:1px solid rgba(255,255,255,.08);
+  }
+  .hero::after{
+    content:"";position:absolute;inset:-40% -10% auto auto;width:420px;height:420px;border-radius:50%;
+    background:radial-gradient(circle,rgba(245,165,36,.22),transparent 62%);filter:blur(18px);
+  }
+  .hero-eyebrow{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--amber);font-weight:800;margin-bottom:10px}
+  .hero h1{margin:0 0 8px;font-size:38px;line-height:1.06;letter-spacing:-1.4px;font-weight:800;max-width:560px}
+  .hero p{margin:0 0 20px;color:#b9b3c6;font-size:13.5px;line-height:1.65;max-width:480px}
+  .hero-actions{display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1}
+  .btn-primary{
+    display:inline-flex;align-items:center;gap:9px;padding:12px 22px;border-radius:99px;border:0;
+    background:var(--grad);color:#180c00;font-weight:800;font-size:13.5px;cursor:pointer;
+    box-shadow:0 10px 30px -10px rgba(245,165,36,.65);transition:.18s;
+  }
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 14px 34px -10px rgba(245,165,36,.8)}
+  .btn-ghost{
+    display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:99px;
+    border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);color:var(--txt);
+    font-weight:600;font-size:13.5px;cursor:pointer;transition:.18s;
+  }
+  .btn-ghost:hover{background:rgba(255,255,255,.1)}
+
+  /* rails */
+  .section{margin:0 28px 30px}
+  .section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;gap:12px}
+  .section-head h2{margin:0;font-size:17.5px;font-weight:800;letter-spacing:-.4px}
+  .section-head span{font-size:11.5px;color:var(--dim2);font-weight:600;cursor:pointer}
+  .section-head span:hover{color:var(--amber)}
+  .rail{display:grid;grid-auto-flow:column;grid-auto-columns:158px;gap:14px;overflow-x:auto;padding-bottom:10px;scroll-snap-type:x proximity}
+  .rail::-webkit-scrollbar{height:6px}
+  .rail::-webkit-scrollbar-thumb{background:#201c2b;border:0}
+
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:11px;
+    cursor:pointer;transition:.2s;position:relative;scroll-snap-align:start;
+  }
+  .card:hover{background:var(--card-hi);transform:translateY(-3px);border-color:rgba(255,255,255,.13);box-shadow:var(--shadow)}
+  .card-img{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:1;background:#1a1724;margin-bottom:10px}
+  .card-img img{width:100%;height:100%;object-fit:cover;display:block}
+  .card-play{
+    position:absolute;right:8px;bottom:8px;width:38px;height:38px;border-radius:50%;border:0;
+    background:var(--grad);color:#180c00;display:flex;align-items:center;justify-content:center;
+    opacity:0;transform:translateY(8px);transition:.2s;cursor:pointer;
+    box-shadow:0 8px 22px -6px rgba(0,0,0,.8);
+  }
+  .card:hover .card-play{opacity:1;transform:translateY(0)}
+  .card-title{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
+  .card-sub{font-size:11.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rank{
+    position:absolute;left:8px;top:8px;min-width:22px;height:22px;border-radius:7px;
+    background:rgba(8,7,12,.82);backdrop-filter:blur(6px);color:var(--amber);
+    font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 6px;
+  }
+
+  /* list rows */
+  .list{display:flex;flex-direction:column;gap:2px}
+  .row{
+    display:grid;grid-template-columns:30px 52px 1fr auto auto;gap:14px;align-items:center;
+    padding:8px 12px;border-radius:10px;cursor:pointer;transition:.15s;
+  }
+  .row:hover{background:rgba(255,255,255,.05)}
+  .row.on{background:rgba(245,165,36,.09)}
+  .row-n{font-size:12px;color:var(--dim2);text-align:center;font-variant-numeric:tabular-nums}
+  .row.on .row-n{color:var(--amber)}
+  .row-art{width:44px;height:44px;border-radius:7px;object-fit:cover;background:#1a1724;display:block}
+  .row-mid{min-width:0}
+  .row-title{font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .row.on .row-title{color:var(--amber)}
+  .row-sub{font-size:12px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+  .row-genre{font-size:10.5px;color:var(--dim2);border:1px solid var(--line);padding:2px 8px;border-radius:99px;white-space:nowrap}
+  .row-actions{display:flex;align-items:center;gap:6px}
+  .icon-btn{
+    width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.03);
+    color:var(--dim);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s;flex:0 0 auto;
+  }
+  .icon-btn:hover{color:var(--txt);border-color:var(--line-2);background:rgba(255,255,255,.08)}
+  .icon-btn.liked{color:var(--rose);border-color:rgba(244,63,94,.4);background:rgba(244,63,94,.1)}
+  .icon-btn svg{width:14px;height:14px}
+
+  /* skeletons */
+  .sk{background:linear-gradient(90deg,#141220 25%,#1c1928 37%,#141220 63%);background-size:400% 100%;animation:sk 1.4s ease infinite;border-radius:8px}
+  @keyframes sk{0%{background-position:100% 0}100%{background-position:-100% 0}}
+  .sk-card{height:196px;border-radius:var(--r)}
+  .sk-row{height:60px;border-radius:10px;margin-bottom:4px}
+
+  .empty{padding:46px 20px;text-align:center;color:var(--dim2);font-size:13.5px;line-height:1.7}
+  .empty b{display:block;color:var(--dim);font-size:15px;margin-bottom:6px;font-weight:700}
+
+  .notice{
+    display:flex;gap:12px;align-items:flex-start;margin:0 28px 22px;padding:13px 16px;border-radius:12px;
+    background:rgba(245,165,36,.08);border:1px solid rgba(245,165,36,.25);font-size:12.5px;color:#e8d5b0;line-height:1.6;
+  }
+  .notice b{color:var(--amber)}
+
+  /* ---------------- player ---------------- */
+  .player{
+    position:fixed;left:0;right:0;bottom:0;height:90px;z-index:40;
+    display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:20px;
+    padding:0 20px;background:rgba(10,8,15,.92);backdrop-filter:blur(22px);
+    border-top:1px solid var(--line);
+  }
+  .np{display:flex;align-items:center;gap:13px;min-width:0}
+  .np-art{
+    width:54px;height:54px;border-radius:9px;object-fit:cover;background:#1a1724;flex:0 0 auto;
+    box-shadow:0 6px 18px -8px #000;
+  }
+  .np-meta{min-width:0}
+  .np-title{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .np-artist{font-size:11.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+  .np-like{margin-left:4px}
+
+  .center{display:flex;flex-direction:column;align-items:center;gap:8px;width:min(520px,42vw)}
+  .controls{display:flex;align-items:center;gap:14px}
+  .ctrl{
+    width:34px;height:34px;border-radius:50%;border:0;background:transparent;color:var(--dim);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s;
+  }
+  .ctrl:hover{color:var(--txt);background:rgba(255,255,255,.07)}
+  .ctrl.on{color:var(--amber)}
+  .ctrl svg{width:17px;height:17px}
+  .play-btn{
+    width:42px;height:42px;border-radius:50%;border:0;background:var(--txt);color:#0a080f;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.18s;
+  }
+  .play-btn:hover{transform:scale(1.07);background:#fff}
+  .play-btn svg{width:17px;height:17px;margin-left:1px}
+  .play-btn.playing svg{margin-left:0}
+
+  .seek{display:flex;align-items:center;gap:10px;width:100%}
+  .seek span{font-size:10.5px;color:var(--dim2);font-variant-numeric:tabular-nums;width:34px;flex:0 0 auto}
+  .seek span:last-child{text-align:right}
+  input[type=range]{
+    -webkit-appearance:none;appearance:none;flex:1;height:4px;border-radius:99px;
+    background:linear-gradient(90deg,var(--amber) 0%,var(--rose) 0%,#2a2634 0%);cursor:pointer;outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:11px;height:11px;border-radius:50%;background:#fff;
+    box-shadow:0 0 0 3px rgba(255,255,255,.12);opacity:0;transition:.15s;
+  }
+  input[type=range]:hover::-webkit-slider-thumb{opacity:1}
+  input[type=range]::-moz-range-thumb{width:11px;height:11px;border:0;border-radius:50%;background:#fff}
+
+  .right-controls{display:flex;align-items:center;gap:10px;justify-content:flex-end}
+  .vol{width:82px;flex:0 0 auto}
+  .full-badge{
+    padding:7px 13px;border-radius:99px;border:1px solid rgba(245,165,36,.35);background:rgba(245,165,36,.1);
+    color:var(--amber);font-size:11.5px;font-weight:800;cursor:pointer;transition:.15s;white-space:nowrap;
+  }
+  .full-badge:hover{background:rgba(245,165,36,.2)}
+
+  /* modal */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:60;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
+  .modal.on{display:flex}
+  .modal-box{width:100%;max-width:560px;background:var(--card);border:1px solid var(--line-2);border-radius:18px;padding:16px;box-shadow:var(--shadow)}
+  .modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .modal-head div{font-size:12.5px;color:var(--dim);font-weight:600}
+  .modal-head button{border:0;background:transparent;color:var(--dim);font-size:22px;cursor:pointer;line-height:1;padding:0 4px}
+  .modal-head button:hover{color:var(--txt)}
+  .embed-slot iframe{width:100%;height:175px;border:0;border-radius:12px}
+
+  .toast{
+    position:fixed;left:50%;bottom:108px;transform:translate(-50%,16px);z-index:80;
+    background:var(--grad);color:#180c00;font-size:12.5px;font-weight:800;padding:10px 18px;border-radius:99px;
+    opacity:0;pointer-events:none;transition:.24s;box-shadow:0 12px 30px -10px rgba(245,165,36,.6);
+  }
+  .toast.on{opacity:1;transform:translate(-50%,0)}
+
+  @media(max-width:980px){
+    .hero h1{font-size:29px}
+    .center{width:min(360px,40vw)}
+    .row-genre{display:none}
+  }
+  @media(max-width:820px){
+    .app{grid-template-columns:1fr}
+    .sidebar{
+      position:fixed;left:0;right:0;bottom:90px;top:auto;flex-direction:row;gap:6px;
+      padding:8px 10px;overflow-x:auto;overflow-y:hidden;border-right:0;border-top:1px solid var(--line);
+      background:rgba(10,8,15,.97);backdrop-filter:blur(16px);z-index:35;
+    }
+    .brand,.nav-label,.side-foot{display:none}
+    .nav{flex-direction:row;gap:4px}
+    .nav-item{white-space:nowrap;padding:9px 12px;font-size:12.5px}
+    .nav-item.on::before{display:none}
+    .nav-item svg{width:15px;height:15px}
+    .main{padding-bottom:120px}
+    .player{grid-template-columns:1fr auto;height:78px}
+    .center{position:static;width:auto;order:3;grid-column:1/-1}
+    .seek,.controls .ctrl:nth-child(1),.controls .ctrl:nth-child(5){display:none}
+    .right-controls{display:none}
+    .np-art{width:42px;height:42px}
+    .hero{margin:8px 14px 20px;padding:24px 20px}
+    .section{margin:0 14px 24px}
+    .topbar{padding:12px 14px}
+    .row{grid-template-columns:24px 46px 1fr auto;gap:10px}
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1a0d00" stroke-width="2.4" stroke-linecap="round">
+          <path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5" fill="#1a0d00" stroke="none"/><circle cx="16.5" cy="16" r="2.5" fill="#1a0d00" stroke="none"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name">Sargam</div>
+        <div class="brand-sub">Hindi · Punjabi</div>
+      </div>
+    </div>
+
+    <nav class="nav" id="nav">
+      <div class="nav-label">Browse</div>
+      <button class="nav-item on" data-view="home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+        Home
+      </button>
+      <button class="nav-item" data-view="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        Search
+      </button>
+      <button class="nav-item" data-view="favorites">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-9.3A4 4 0 0 1 12 7a4 4 0 0 1 7 3.7C19 15.6 12 20 12 20Z"/></svg>
+        Liked songs
+      </button>
+
+      <div class="nav-label" style="margin-top:16px">Charts</div>
+      <button class="nav-item" data-genre="" data-view="chart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20v-3"/></svg>
+        Top India
+      </button>
+      <button class="nav-item" data-genre="100033" data-view="chart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/></svg>
+        Top Punjabi
+      </button>
+      <button class="nav-item" data-genre="1263" data-view="chart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M8 6v12"/></svg>
+        Top Bollywood
+      </button>
+      <button class="nav-item" data-genre="1268" data-view="chart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M5 8l14 8M19 8 5 16"/></svg>
+        Top Sufi
+      </button>
+      <button class="nav-item" data-genre="1267" data-view="chart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3a5 5 0 0 0-5 5c0 3 5 13 5 13s5-10 5-13a5 5 0 0 0-5-5Z"/></svg>
+        Top Devotional
+      </button>
+      <button class="nav-item" data-genre="1185" data-view="chart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M7 12h10"/></svg>
+        Indian Pop
+      </button>
+    </nav>
+
+    <div class="side-foot">
+      <b>Free · no API key</b><br>
+      Powered by the iTunes India catalogue
+    </div>
+  </aside>
+
+  <!-- ================= MAIN ================= -->
+  <main class="main" id="main">
+    <div class="main-inner">
+      <header class="topbar" id="topbar">
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="search" type="text" placeholder="Search songs, artists, films…" autocomplete="off">
+        </div>
+        <div id="quick" style="display:flex;gap:8px;overflow-x:auto">
+          <button class="pill" data-q="Diljit Dosanjh">Diljit</button>
+          <button class="pill" data-q="Sidhu Moose Wala">Sidhu</button>
+          <button class="pill" data-q="AP Dhillon">AP Dhillon</button>
+          <button class="pill" data-q="Arijit Singh">Arijit</button>
+        </div>
+      </header>
+
+      <section id="view"></section>
+    </div>
+  </main>
+</div>
+
+<!-- ================= PLAYER ================= -->
+<div class="player">
+  <div class="np">
+    <img class="np-art" id="npArt" alt="">
+    <div class="np-meta">
+      <div class="np-title" id="npTitle">Nothing playing</div>
+      <div class="np-artist" id="npArtist">Pick a song to start</div>
+    </div>
+    <button class="icon-btn np-like" id="npLike" title="Like">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-9.3A4 4 0 0 1 12 7a4 4 0 0 1 7 3.7C19 15.6 12 20 12 20Z"/></svg>
+    </button>
+  </div>
+
+  <div class="center">
+    <div class="controls">
+      <button class="ctrl" id="shuffle" title="Shuffle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></svg>
+      </button>
+      <button class="ctrl" id="prev" title="Previous">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5v14l-11-7z"/></svg>
+      </button>
+      <button class="play-btn" id="playBtn" title="Play / pause">
+        <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <button class="ctrl" id="next" title="Next">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5l11 7-11 7z"/></svg>
+      </button>
+      <button class="ctrl" id="repeat" title="Repeat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+      </button>
+    </div>
+    <div class="seek">
+      <span id="tCur">0:00</span>
+      <input type="range" id="seek" min="0" max="1000" value="0" step="1">
+      <span id="tDur">0:00</span>
+    </div>
+  </div>
+
+  <div class="right-controls">
+    <button class="full-badge" id="fullBtn" title="Play the full song in Apple Music">Full song</button>
+    <button class="ctrl" id="muteBtn" title="Mute">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M19 6a8 8 0 0 1 0 12"/></svg>
+    </button>
+    <input type="range" class="vol" id="vol" min="0" max="100" value="85">
+  </div>
+</div>
+
+<!-- ================= MODAL ================= -->
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div>Apple Music · official player (full song)</div>
+      <button id="modalClose">×</button>
+    </div>
+    <div class="embed-slot" id="embedSlot"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<audio id="audio" preload="none"></audio>
+
+<script>
+/* =========================================================
+   Sargam — Spotify-style UI on the free iTunes India API
+   No key, no backend, no signup.
+   ========================================================= */
+
+var $ = function (id) { return document.getElementById(id); };
+var view = $('view'), audio = $('audio');
+
+/* ---------------- state ---------------- */
+var state = {
+  queue: [],        // tracks currently listed
+  index: -1,
+  current: null,
+  shuffle: false,
+  repeat: false,
+  view: 'home',
+  genre: '',
+  term: '',
+  likes: []
+};
+
+/* ---------------- genre map ---------------- */
+var GENRES = {
+  '': 'Top India',
+  '100033': 'Top Punjabi',
+  '1263': 'Top Bollywood',
+  '1268': 'Top Sufi',
+  '1267': 'Top Devotional',
+  '1185': 'Indian Pop',
+  '1264': 'Top Tamil',
+  '1265': 'Top Telugu',
+  '100041': 'Top Haryanvi'
+};
+
+/* ---------------- tiny fetch cache ---------------- */
+var cache = new Map();
+async function getJSON(url, ttl) {
+  ttl = ttl || 10 * 60 * 1000;
+  var hit = cache.get(url);
+  if (hit && Date.now() - hit.t < ttl) return hit.d;
+  var ctrl = new AbortController();
+  var timer = setTimeout(function () { ctrl.abort(); }, 12000);
+  try {
+    var res = await fetch(url, { signal: ctrl.signal });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    var data = await res.json();
+    cache.set(url, { t: Date.now(), d: data });
+    return data;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/* ---------------- helpers ---------------- */
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+  });
+}
+function msToTime(ms) {
+  if (!isFinite(ms) || ms <= 0) return '0:00';
+  var s = Math.floor(ms / 1000);
+  return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+}
+function art600(u) { return (u || '').replace('100x100bb', '600x600bb'); }
+function placeholder(ch) {
+  var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300">' +
+    '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">' +
+    '<stop offset="0%" stop-color="#241f33"/><stop offset="100%" stop-color="#15121f"/></linearGradient></defs>' +
+    '<rect width="300" height="300" fill="url(#g)"/>' +
+    '<text x="150" y="170" font-size="86" fill="#3b3450" text-anchor="middle" font-family="sans-serif">' + (ch || '♪') + '</text></svg>';
+  return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+}
+function toast(msg) {
+  var t = $('toast');
+  t.textContent = msg;
+  t.classList.add('on');
+  clearTimeout(t._t);
+  t._t = setTimeout(function () { t.classList.remove('on'); }, 2300);
+}
+
+/* ---------------- normalisers ---------------- */
+function fromSearchResult(t) {
+  return {
+    id: 'it' + t.trackId,
+    title: t.trackName,
+    artist: t.artistName,
+    album: t.collectionName || '',
+    art: art600(t.artworkUrl100),
+    preview: t.previewUrl || '',
+    duration: t.trackTimeMillis || 30000,
+    genre: t.primaryGenreName || '',
+    embed: t.collectionId && t.trackId
+      ? 'https://embed.music.apple.com/in/album/' + t.collectionId + '?i=' + t.trackId : ''
+  };
+}
+function fromLookup(x, chartEntry) {
+  return {
+    id: 'it' + x.trackId,
+    title: x.trackName || chartEntry.title,
+    artist: x.artistName || chartEntry.artist,
+    album: x.collectionName || chartEntry.album || '',
+    art: art600(x.artworkUrl100 || chartEntry.art),
+    preview: x.previewUrl || '',
+    duration: x.trackTimeMillis || 30000,
+    genre: x.primaryGenreName || chartEntry.genre || '',
+    embed: x.collectionId && x.trackId
+      ? 'https://embed.music.apple.com/in/album/' + x.collectionId + '?i=' + x.trackId : ''
+  };
+}
+
+/* ---------------- API calls ---------------- */
+async function apiSearch(term, limit) {
+  var url = 'https://itunes.apple.com/search?term=' + encodeURIComponent(term) +
+            '&entity=song&limit=' + (limit || 30) + '&country=in';
+  var data = await getJSON(url);
+  return (data.results || []).map(fromSearchResult).filter(function (t) { return t.preview; });
+}
+
+async function apiChart(genreId, limit) {
+  var g = genreId ? '/genre=' + genreId : '';
+  var feed = await getJSON('https://itunes.apple.com/in/rss/topsongs/limit=' + (limit || 24) + g + '/json');
+  var entries = (feed.feed && feed.feed.entry) || [];
+  if (!entries.length) return [];
+
+  var base = entries.map(function (e) {
+    var imgs = e['im:image'] || [];
+    return {
+      appleId: e.id.attributes['im:id'],
+      title: e['im:name'].label,
+      artist: e['im:artist'].label,
+      album: e['im:collection'] ? e['im:collection']['im:name'].label : '',
+      art: art600(imgs.length ? imgs[imgs.length - 1].label : ''),
+      genre: e.category ? e.category.attributes.term : ''
+    };
+  });
+
+  var ids = base.map(function (b) { return b.appleId; }).join(',');
+  var look = await getJSON('https://itunes.apple.com/lookup?id=' + ids + '&country=in');
+
+  var byId = {};
+  (look.results || []).forEach(function (r) { byId[String(r.trackId)] = r; });
+
+  return base.map(function (b) {
+    var x = byId[b.appleId];
+    return x ? fromLookup(x, b) : {
+      id: 'it' + b.appleId, title: b.title, artist: b.artist, album: b.album,
+      art: b.art, preview: '', duration: 30000, genre: b.genre, embed: ''
+    };
+  }).filter(function (t) { return t.preview; });
+}
+
+/* ---------------- skeletons ---------------- */
+function skeletonRail(n) {
+  var out = '<div class="rail">';
+  for (var i = 0; i < (n || 6); i++) out += '<div class="sk sk-card"></div>';
+  return out + '</div>';
+}
+function skeletonRows(n) {
+  var out = '<div class="list">';
+  for (var i = 0; i < (n || 8); i++) out += '<div class="sk sk-row"></div>';
+  return out + '</div>';
+}
+
+/* ---------------- renderers ---------------- */
+function cardHTML(t, rank) {
+  return '<div class="card" data-id="' + esc(t.id) + '">' +
+    '<div class="card-img">' +
+      '<img src="' + esc(t.art || placeholder('♪')) + '" alt="" loading="lazy" onerror="this.src=\'' + placeholder('♪') + '\'">' +
+      (rank ? '<div class="rank">' + rank + '</div>' : '') +
+      '<button class="card-play" data-play="' + esc(t.id) + '">' +
+        '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>' +
+      '</button>' +
+    '</div>' +
+    '<div class="card-title">' + esc(t.title) + '</div>' +
+    '<div class="card-sub">' + esc(t.artist) + '</div>' +
+  '</div>';
+}
+
+function rowHTML(t, i) {
+  var liked = state.likes.indexOf(t.id) > -1;
+  var playing = state.current && state.current.id === t.id;
+  return '<div class="row' + (playing ? ' on' : '') + '" data-id="' + esc(t.id) + '">' +
+    '<div class="row-n">' + (i + 1) + '</div>' +
+    '<img class="row-art" src="' + esc(t.art || placeholder('♪')) + '" alt="" loading="lazy" onerror="this.src=\'' + placeholder('♪') + '\'">' +
+    '<div class="row-mid">' +
+      '<div class="row-title">' + esc(t.title) + '</div>' +
+      '<div class="row-sub">' + esc(t.artist) + (t.album ? ' · ' + esc(t.album) : '') + '</div>' +
+    '</div>' +
+    (t.genre ? '<div class="row-genre">' + esc(t.genre) + '</div>' : '<div></div>') +
+    '<div class="row-actions">' +
+      '<button class="icon-btn' + (liked ? ' liked' : '') + '" data-like="' + esc(t.id) + '" title="Like">' +
+        '<svg viewBox="0 0 24 24" fill="' + (liked ? 'currentColor' : 'none') + '" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-9.3A4 4 0 0 1 12 7a4 4 0 0 1 7 3.7C19 15.6 12 20 12 20Z"/></svg>' +
+      '</button>' +
+      '<button class="icon-btn" data-play="' + esc(t.id) + '" title="Play preview">' +
+        '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>' +
+      '</button>' +
+    '</div>' +
+  '</div>';
+}
+
+function railSection(title, tracks, genre) {
+  return '<div class="section">' +
+    '<div class="section-head"><h2>' + esc(title) + '</h2>' +
+      '<span data-open-genre="' + esc(genre || '') + '">See all</span></div>' +
+    '<div class="rail">' + tracks.map(function (t, i) { return cardHTML(t, i + 1); }).join('') + '</div>' +
+  '</div>';
+}
+
+/* ---------------- views ---------------- */
+async function showHome() {
+  state.view = 'home';
+  $('search').value = '';
+  view.innerHTML =
+    '<div class="hero">' +
+      '<div class="hero-eyebrow">Free · no signup</div>' +
+      '<h1>Hindi &amp; Punjabi music,<br>the way it should sound.</h1>' +
+      '<p>Chart-toppers, Sufi classics and fresh Punjabi pop — streamed from the iTunes India catalogue. Full 30-second previews, no account needed.</p>' +
+      '<div class="hero-actions">' +
+        '<button class="btn-primary" id="heroPlay">' +
+          '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play Top Punjabi' +
+        '</button>' +
+        '<button class="btn-ghost" data-open-genre="1263">Browse Bollywood</button>' +
+      '</div>' +
+    '</div>' +
+    '<div class="section"><div class="section-head"><h2>Top Punjabi</h2><span data-open-genre="100033">See all</span></div>' + skeletonRail(6) + '</div>' +
+    '<div class="section"><div class="section-head"><h2>Top Bollywood</h2><span data-open-genre="1263">See all</span></div>' + skeletonRail(6) + '</div>' +
+    '<div class="section"><div class="section-head"><h2>Top India</h2><span data-open-genre="">See all</span></div>' + skeletonRows(6) + '</div>';
+
+  var sections = view.querySelectorAll('.section');
+  var jobs = [
+    { el: sections[1], genre: '100033' },
+    { el: sections[2], genre: '1263' },
+    { el: sections[3], genre: '' }
+  ];
+
+  jobs.forEach(async function (job) {
+    try {
+      var tracks = await apiChart(job.genre, 12);
+      var title = GENRES[job.genre] || 'Chart';
+      if (job.genre === '') {
+        // render the India chart as a list
+        job.el.outerHTML = '<div class="section"><div class="section-head"><h2>' + title + '</h2>' +
+          '<span data-open-genre="">See all</span></div>' +
+          '<div class="list">' + tracks.slice(0, 8).map(rowHTML).join('') + '</div></div>';
+        rebind();
+        cacheQueue(tracks);
+      } else {
+        job.el.outerHTML = railSection(title, tracks, job.genre);
+        rebind();
+      }
+    } catch (e) {
+      job.el.outerHTML = '<div class="notice"><div><b>Could not load ' + esc(GENRES[job.genre] || 'chart') + '.</b> ' +
+        'This page reads live data from Apple. If you are seeing this inside a preview pane, download the file and open it in your browser.</div></div>';
+    }
+  });
+
+  $('heroPlay').onclick = function () { openGenre('100033', true); };
+  rebind();
+}
+
+async function showChart(genre, autoplay) {
+  state.view = 'chart';
+  state.genre = genre || '';
+  var title = GENRES[genre] || 'Chart';
+  view.innerHTML =
+    '<div class="hero" style="padding:28px 30px">' +
+      '<div class="hero-eyebrow">Apple Top Songs · India</div>' +
+      '<h1 style="font-size:30px">' + esc(title) + '</h1>' +
+      '<p style="margin-bottom:0">Ranked from the iTunes India storefront. Updated continuously.</p>' +
+    '</div>' +
+    '<div class="section">' + skeletonRows(10) + '</div>';
+
+  try {
+    var tracks = await apiChart(genre, 25);
+    if (!tracks.length) throw new Error('empty');
+    view.querySelector('.section').innerHTML =
+      '<div class="list">' + tracks.map(rowHTML).join('') + '</div>';
+    cacheQueue(tracks);
+    rebind();
+    if (autoplay) playTrack(tracks[0], tracks);
+  } catch (e) {
+    view.querySelector('.section').innerHTML =
+      '<div class="empty"><b>Chart unavailable</b>Apple did not return data. Check your connection, or open this file directly in a browser.</div>';
+  }
+}
+
+async function showSearch(term) {
+  state.view = 'search';
+  state.term = term;
+  view.innerHTML =
+    '<div class="section" style="margin-top:14px">' +
+      '<div class="section-head"><h2>' + (term ? 'Results for “' + esc(term) + '”' : 'Search') + '</h2>' +
+      '<span>' + (term ? 'iTunes India' : '') + '</span></div>' +
+      (term ? skeletonRows(8)
+        : '<div class="empty"><b>Find your next favourite</b>Type an artist, song or film above. Try Diljit Dosanjh, Sidhu Moose Wala, or Kesariya.</div>') +
+    '</div>';
+
+  if (!term) return;
+
+  try {
+    var tracks = await apiSearch(term, 30);
+    if (!tracks.length) throw new Error('empty');
+    view.querySelector('.section').innerHTML =
+      '<div class="section-head"><h2>Results for “' + esc(term) + '”</h2><span>' + tracks.length + ' songs</span></div>' +
+      '<div class="list">' + tracks.map(rowHTML).join('') + '</div>';
+    cacheQueue(tracks);
+    rebind();
+  } catch (e) {
+    view.querySelector('.section').innerHTML =
+      '<div class="empty"><b>No results</b>Nothing came back for “' + esc(term) + '”. Try another spelling, or open this file in a browser if you are in a preview pane.</div>';
+  }
+}
+
+function showFavorites() {
+  state.view = 'favorites';
+  var tracks = state.queue.filter(function (t) { return state.likes.indexOf(t.id) > -1; });
+  var all = loadLikes();
+  view.innerHTML =
+    '<div class="hero" style="padding:28px 30px;background:linear-gradient(120deg,rgba(244,63,94,.16),rgba(245,165,36,.1))">' +
+      '<div class="hero-eyebrow">Your collection</div>' +
+      '<h1 style="font-size:30px">Liked songs</h1>' +
+      '<p style="margin-bottom:0">' + all.length + ' saved in this browser</p>' +
+    '</div>' +
+    '<div class="section">' +
+      (all.length
+        ? '<div class="list">' + all.map(rowHTML).join('') + '</div>'
+        : '<div class="empty"><b>Nothing liked yet</b>Tap the heart on any song to save it here. Stored in your browser, no account needed.</div>') +
+    '</div>';
+  cacheQueue(all);
+  rebind();
+}
+
+/* ---------------- likes ---------------- */
+function loadLikes() {
+  try { return JSON.parse(localStorage.getItem('sargam_likes') || '[]'); }
+  catch (e) { return []; }
+}
+function saveLikes(list) {
+  try { localStorage.setItem('sargam_likes', JSON.stringify(list)); }
+  catch (e) {}
+}
+state.likes = loadLikes().map(function (t) { return t.id; });
+
+function toggleLike(id) {
+  var all = loadLikes();
+  var idx = all.findIndex(function (t) { return t.id === id; });
+  if (idx > -1) {
+    all.splice(idx, 1);
+    state.likes = state.likes.filter(function (x) { return x !== id; });
+  } else {
+    var t = findTrack(id);
+    if (!t) return;
+    all.unshift(t);
+    state.likes.push(id);
+  }
+  saveLikes(all);
+  if (state.view === 'favorites') showFavorites();
+  else refreshRows();
+  toast(idx > -1 ? 'Removed from Liked songs' : 'Saved to Liked songs');
+}
+
+function findTrack(id) {
+  if (state.current && state.current.id === id) return state.current;
+  return state.queue.filter(function (t) { return t.id === id; })[0] || null;
+}
+
+/* ---------------- queue / interactions ---------------- */
+function cacheQueue(tracks) {
+  var ids = {};
+  tracks.forEach(function (t) { ids[t.id] = true; });
+  state.queue = state.queue.filter(function (t) { return !ids[t.id]; }).concat(tracks);
+}
+
+function rebind() {
+  view.querySelectorAll('[data-play]').forEach(function (btn) {
+    btn.onclick = function (e) {
+      e.stopPropagation();
+      var id = btn.getAttribute('data-play');
+      var t = findTrack(id);
+      if (!t) return;
+      if (!t.preview) { toast('No preview for this track'); return; }
+      playTrack(t, state.queue);
+    };
+  });
+  view.querySelectorAll('.card').forEach(function (card) {
+    card.onclick = function () {
+      var t = findTrack(card.getAttribute('data-id'));
+      if (!t) return;
+      if (!t.preview) { toast('No preview for this track'); return; }
+      playTrack(t, state.queue);
+    };
+  });
+  view.querySelectorAll('.row').forEach(function (row) {
+    row.onclick = function () {
+      var t = findTrack(row.getAttribute('data-id'));
+      if (!t) return;
+      if (!t.preview) { toast('No preview for this track'); return; }
+      playTrack(t, state.queue);
+    };
+  });
+  view.querySelectorAll('[data-like]').forEach(function (btn) {
+    btn.onclick = function (e) {
+      e.stopPropagation();
+      toggleLike(btn.getAttribute('data-like'));
+    };
+  });
+  view.querySelectorAll('[data-open-genre]').forEach(function (el) {
+    el.onclick = function (e) {
+      e.stopPropagation();
+      openGenre(el.getAttribute('data-open-genre'));
+    };
+  });
+}
+
+function refreshRows() {
+  view.querySelectorAll('.row').forEach(function (row) {
+    var id = row.getAttribute('data-id');
+    var liked = state.likes.indexOf(id) > -1;
+    var btn = row.querySelector('[data-like]');
+    if (!btn) return;
+    btn.classList.toggle('liked', liked);
+    var svg = btn.querySelector('svg');
+    if (svg) svg.setAttribute('fill', liked ? 'currentColor' : 'none');
+    row.classList.toggle('on', !!(state.current && state.current.id === id));
+  });
+}
+
+/* ---------------- playback ---------------- */
+function playTrack(track, queue) {
+  if (queue && queue.length) state.queue = queue;
+  state.current = track;
+  state.index = state.queue.findIndex(function (t) { return t.id === track.id; });
+
+  $('npArt').src = track.art || placeholder('♪');
+  $('npTitle').textContent = track.title;
+  $('npArtist').textContent = track.artist + (track.album ? ' · ' + track.album : '');
+  $('npLike').classList.toggle('liked', state.likes.indexOf(track.id) > -1);
+
+  audio.src = track.preview;
+  audio.volume = $('vol').value / 100;
+  audio.play().catch(function () { toast('Preview could not play'); });
+  refreshRows();
+}
+
+function togglePlay() {
+  if (!state.current) {
+    var first = state.queue.filter(function (t) { return t.preview; })[0];
+    if (first) playTrack(first, state.queue);
+    return;
+  }
+  if (audio.paused) audio.play().catch(function () {});
+  else audio.pause();
+}
+
+function step(dir) {
+  if (!state.queue.length) return;
+  var playable = state.queue.filter(function (t) { return t.preview; });
+  if (!playable.length) return;
+  var i = playable.findIndex(function (t) { return state.current && t.id === state.current.id; });
+  if (state.shuffle) {
+    var r = i;
+    while (playable.length > 1 && r === i) r = Math.floor(Math.random() * playable.length);
+    i = r;
+  } else {
+    i = (i + dir + playable.length) % playable.length;
+  }
+  playTrack(playable[i], playable);
+}
+
+/* ---------------- wiring ---------------- */
+$('playBtn').onclick = togglePlay;
+$('next').onclick = function () { step(1); };
+$('prev').onclick = function () {
+  if (audio.currentTime > 3) { audio.currentTime = 0; return; }
+  step(-1);
+};
+$('shuffle').onclick = function () {
+  state.shuffle = !state.shuffle;
+  this.classList.toggle('on', state.shuffle);
+  toast(state.shuffle ? 'Shuffle on' : 'Shuffle off');
+};
+$('repeat').onclick = function () {
+  state.repeat = !state.repeat;
+  this.classList.toggle('on', state.repeat);
+  toast(state.repeat ? 'Repeat on' : 'Repeat off');
+};
+$('muteBtn').onclick = function () {
+  audio.muted = !audio.muted;
+  this.style.color = audio.muted ? 'var(--rose)' : '';
+};
+$('vol').oninput = function () {
+  audio.volume = this.value / 100;
+  audio.muted = false;
+  paintRange(this, this.value);
+};
+
+$('npLike').onclick = function () {
+  if (!state.current) return;
+  toggleLike(state.current.id);
+  $('npLike').classList.toggle('liked', state.likes.indexOf(state.current.id) > -1);
+};
+
+$('seek').oninput = function () {
+  if (!audio.duration) return;
+  audio.currentTime = (this.value / 1000) * audio.duration;
+  paintRange(this, this.value / 10);
+};
+
+$('fullBtn').onclick = function () {
+  if (!state.current || !state.current.embed) { toast('Full song not available for this track'); return; }
+  $('embedSlot').innerHTML = '<iframe allow="autoplay *; encrypted-media *; clipboard-write" ' +
+    'sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation" ' +
+    'src="' + state.current.embed + '" frameborder="0"></iframe>';
+  $('modal').classList.add('on');
+};
+$('modalClose').onclick = closeModal;
+$('modal').onclick = function (e) { if (e.target === $('modal')) closeModal(); };
+function closeModal() {
+  $('modal').classList.remove('on');
+  $('embedSlot').innerHTML = '';
+}
+
+audio.onplay = function () {
+  $('playIcon').outerHTML = '<svg id="playIcon" viewBox="0 0 24 24" fill="currentColor"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg>';
+  $('playBtn').classList.add('playing');
+};
+audio.onpause = function () {
+  $('playIcon').outerHTML = '<svg id="playIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+  $('playBtn').classList.remove('playing');
+};
+audio.ontimeupdate = function () {
+  if (!audio.duration) return;
+  var pct = (audio.currentTime / audio.duration) * 100;
+  $('seek').value = pct * 10;
+  paintRange($('seek'), pct);
+  $('tCur').textContent = msToTime(audio.currentTime * 1000);
+};
+audio.onloadedmetadata = function () {
+  $('tDur').textContent = msToTime(audio.duration * 1000);
+  $('tCur').textContent = '0:00';
+};
+audio.onended = function () {
+  if (state.repeat) { audio.currentTime = 0; audio.play(); }
+  else step(1);
+};
+audio.onerror = function () { toast('This preview could not load'); };
+
+function paintRange(el, pct) {
+  pct = Math.max(0, Math.min(100, pct));
+  el.style.background = 'linear-gradient(90deg,var(--amber) 0%,var(--rose) ' + pct + '%,#2a2634 ' + pct + '%)';
+}
+
+/* ---------------- navigation ---------------- */
+function setActive(btn) {
+  document.querySelectorAll('.nav-item').forEach(function (b) { b.classList.remove('on'); });
+  if (btn) btn.classList.add('on');
+}
+function openGenre(genre, autoplay) {
+  setActive(document.querySelector('.nav-item[data-view="chart"][data-genre="' + (genre || '') + '"]'));
+  showChart(genre, autoplay);
+}
+
+document.querySelectorAll('.nav-item').forEach(function (btn) {
+  btn.onclick = function () {
+    setActive(btn);
+    var v = btn.getAttribute('data-view');
+    if (v === 'home') showHome();
+    else if (v === 'search') { showSearch($('search').value.trim()); $('search').focus(); }
+    else if (v === 'favorites') showFavorites();
+    else if (v === 'chart') showChart(btn.getAttribute('data-genre') || '');
+  };
+});
+
+/* search box */
+var searchTimer = null;
+$('search').addEventListener('input', function () {
+  clearTimeout(searchTimer);
+  var term = this.value.trim();
+  searchTimer = setTimeout(function () {
+    if (!term) { showHome(); return; }
+    setActive(document.querySelector('.nav-item[data-view="search"]'));
+    showSearch(term);
+  }, 380);
+});
+$('search').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') {
+    clearTimeout(searchTimer);
+    setActive(document.querySelector('.nav-item[data-view="search"]'));
+    showSearch(this.value.trim());
+  }
+});
+
+document.querySelectorAll('#quick .pill').forEach(function (p) {
+  p.onclick = function () {
+    $('search').value = p.getAttribute('data-q');
+    setActive(document.querySelector('.nav-item[data-view="search"]'));
+    showSearch(p.getAttribute('data-q'));
+  };
+});
+
+/* scroll shadow */
+$('main').addEventListener('scroll', function () {
+  $('topbar').classList.toggle('scrolled', this.scrollTop > 8);
+});
+
+/* keyboard */
+document.addEventListener('keydown', function (e) {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.code === 'Space') { e.preventDefault(); togglePlay(); }
+  if (e.code === 'ArrowRight' && e.shiftKey) step(1);
+  if (e.code === 'ArrowLeft' && e.shiftKey) step(-1);
+});
+
+/* ---------------- start ---------------- */
+$('npArt').src = placeholder('♪');
+paintRange($('seek'), 0);
+paintRange($('vol'), 85);
+showHome();
+</script>
+</body>
+</html>
+
+--- END CODE ---

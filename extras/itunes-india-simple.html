@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>iTunes India — Hindi &amp; Punjabi music (free, no key)</title>
+</head>
+<body style="margin:0;background:#0b0b10;color:#e9e9f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased">
+
+<div style="max-width:920px;margin:0 auto;padding:30px 20px 180px">
+
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;flex-wrap:wrap">
+    <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#ff9500,#c96d00);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:#1a0f00">♪</div>
+    <h1 style="font-size:20px;margin:0;font-weight:700;letter-spacing:-.3px">iTunes India · Hindi &amp; Punjabi</h1>
+    <span style="font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;color:#1db954;border:1px solid #1d4f31;background:#0e2417;padding:3px 8px;border-radius:99px;font-weight:700">free · no key · no signup</span>
+  </div>
+  <p style="margin:0 0 16px;color:#8b8b9c;font-size:13px;line-height:1.6">
+    <code style="background:#14141f;padding:2px 6px;border-radius:5px;font-size:12px;color:#c9c9d8">itunes.apple.com/search?country=in</code>
+    — real Hindi &amp; Punjabi catalogue, 30-second previews, high-res artwork. Charts via Apple's keyless RSS feed.
+  </p>
+
+  <div style="display:flex;gap:6px;margin-bottom:14px;background:#14141f;padding:5px;border-radius:13px;border:1px solid #26263a;width:fit-content;max-width:100%;flex-wrap:wrap">
+    <button data-tab="search" class="tab" style="padding:9px 15px;border-radius:9px;border:0;font-size:12.5px;font-weight:600;cursor:pointer;background:#ff9500;color:#1a0f00">Search</button>
+    <button data-tab="india" class="tab" style="padding:9px 15px;border-radius:9px;border:0;font-size:12.5px;font-weight:600;cursor:pointer;background:transparent;color:#8b8b9c">Top India</button>
+    <button data-tab="punjabi" class="tab" style="padding:9px 15px;border-radius:9px;border:0;font-size:12.5px;font-weight:600;cursor:pointer;background:transparent;color:#8b8b9c">Top Punjabi</button>
+    <button data-tab="bollywood" class="tab" style="padding:9px 15px;border-radius:9px;border:0;font-size:12.5px;font-weight:600;cursor:pointer;background:transparent;color:#8b8b9c">Top Bollywood</button>
+  </div>
+
+  <div id="searchWrap" style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+    <input id="q" type="text" placeholder="Diljit Dosanjh, Sidhu Moose Wala, Arijit Singh, or ਦਿਲਜੀਤ…"
+      style="flex:1;min-width:180px;padding:13px 16px;border-radius:12px;border:1px solid #26263a;background:#14141f;color:#fff;font-size:14px;outline:none">
+    <button id="go" style="padding:13px 22px;border-radius:12px;border:0;background:#ff9500;color:#1a0f00;font-weight:700;font-size:14px;cursor:pointer;flex:0 0 auto">Search</button>
+  </div>
+
+  <div id="status" style="color:#6f6f85;font-size:13px;margin-bottom:14px">Loading Indian charts…</div>
+  <div id="list"></div>
+
+  <div style="margin-top:32px;padding-top:16px;border-top:1px solid #1c1c28;color:#5d5d72;font-size:11.5px;line-height:1.75">
+    <b style="color:#8b8b9c">Free process:</b> no API key, no developer account, no backend, no card.
+    Search hits <code style="color:#8b8b9c">itunes.apple.com/search?country=in</code>; charts hit
+    <code style="color:#8b8b9c">itunes.apple.com/in/rss/topsongs/…</code>; previews and full playback come from Apple's own players.
+    <b style="color:#e0a33e">Note:</b> previews are 30 seconds — full songs play through the official Apple Music embed (↓ Full).
+  </div>
+</div>
+
+<!-- inline Apple Music embed -->
+<div id="modal" style="position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:18px;z-index:30">
+  <div style="width:100%;max-width:560px;background:#14141f;border:1px solid #26263a;border-radius:16px;padding:14px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div style="font-size:12.5px;color:#8b8b9c">Apple Music · official player</div>
+      <button id="closeModal" style="border:0;background:transparent;color:#8b8b9c;font-size:19px;cursor:pointer;line-height:1">×</button>
+    </div>
+    <div id="embedBox"></div>
+  </div>
+</div>
+
+<div id="bar" style="position:fixed;left:0;right:0;bottom:0;background:rgba(15,15,24,.97);backdrop-filter:blur(14px);border-top:1px solid #22222f;padding:12px 18px;display:flex;align-items:center;gap:14px;transform:translateY(110%);transition:transform .28s ease;z-index:10">
+  <img id="barArt" alt="" style="width:48px;height:48px;border-radius:8px;object-fit:cover;background:#22222f;flex:0 0 auto">
+  <div style="flex:1;min-width:0">
+    <div id="barTitle" style="font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></div>
+    <div id="barArtist" style="font-size:12px;color:#8b8b9c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></div>
+    <div style="height:3px;background:#26263a;border-radius:2px;margin-top:8px;overflow:hidden">
+      <div id="prog" style="height:100%;width:0%;background:#ff9500;border-radius:2px;transition:width .2s linear"></div>
+    </div>
+  </div>
+  <audio id="audio" preload="none"></audio>
+  <button id="toggle" style="width:38px;height:38px;border-radius:50%;border:0;background:#ff9500;color:#1a0f00;font-size:15px;cursor:pointer;flex:0 0 auto">▶</button>
+</div>
+
+<script>
+var list = document.getElementById('list'), statusEl = document.getElementById('status');
+var audio = document.getElementById('audio'), bar = document.getElementById('bar'), prog = document.getElementById('prog');
+var toggle = document.getElementById('toggle'), barTitle = document.getElementById('barTitle');
+var barArtist = document.getElementById('barArtist'), barArt = document.getElementById('barArt');
+var q = document.getElementById('q'), searchWrap = document.getElementById('searchWrap');
+var modal = document.getElementById('modal'), embedBox = document.getElementById('embedBox');
+var mode = 'search', currentKey = null, activeRow = null;
+
+var GENRE = { india: null, punjabi: 100033, bollywood: 1263 };
+
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function fmt(ms){var s=Math.round((ms||0)/1000);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
+function ph(){return 'data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48"><rect width="48" height="48" fill="#1d1d2b"/><text x="24" y="31" font-size="19" fill="#3d3d55" text-anchor="middle" font-family="sans-serif">♪</text></svg>');}
+function art600(u){return (u||'').replace('100x100bb','600x600bb');}
+
+/* ---------- STEP 2: iTunes Search, forced to the Indian storefront ---------- */
+async function search(term){
+  var url = 'https://itunes.apple.com/search?term=' + encodeURIComponent(term)
+          + '&entity=song&limit=25&country=in';
+  var r = await fetch(url);
+  var data = await r.json();
+  if(!data.results.length){ statusEl.textContent = 'No results for “' + term + '”.'; return; }
+  statusEl.textContent = data.results.length + ' songs · Indian storefront · 30s previews';
+  render(data.results.map(function(t){
+    return {
+      title: t.trackName, artist: t.artistName, album: t.collectionName,
+      art: art600(t.artworkUrl100), duration: t.trackTimeMillis || 30000,
+      preview: t.previewUrl, genre: t.primaryGenreName,
+      embed: t.collectionId && t.trackId
+        ? 'https://embed.music.apple.com/in/album/' + t.collectionId + '?i=' + t.trackId : '',
+      key: 'sr' + t.trackId
+    };
+  }));
+}
+
+/* ---------- STEP 3: Apple's keyless chart RSS, then batch-lookup previews ---------- */
+async function charts(genreId){
+  var g = genreId ? '/genre=' + genreId : '';
+  var r = await fetch('https://itunes.apple.com/in/rss/topsongs/limit=25' + g + '/json');
+  var feed = await r.json();
+  var entries = feed.feed.entry || [];
+  if(!entries.length){ statusEl.textContent = 'Chart unavailable right now.'; return; }
+
+  var base = entries.map(function(e){
+    var imgs = e['im:image'] || [];
+    return {
+      id: e.id.attributes['im:id'],
+      title: e['im:name'].label,
+      artist: e['im:artist'].label,
+      album: e['im:collection'] ? e['im:collection']['im:name'].label : '',
+      art: art600(imgs.length ? imgs[imgs.length-1].label : ''),
+      duration: 30000, preview: '', genre: e.category ? e.category.attributes.term : '',
+      embed: '', key: 'ch' + e.id.attributes['im:id']
+    };
+  });
+
+  var ids = base.map(function(t){ return t.id; }).join(',');
+  try{
+    var lk = await fetch('https://itunes.apple.com/lookup?id=' + ids + '&country=in');
+    var look = await lk.json();
+    var byId = {};
+    (look.results || []).forEach(function(x){ byId[String(x.trackId)] = x; });
+    base.forEach(function(t){
+      var x = byId[t.id];
+      if(!x) return;
+      t.preview = x.previewUrl || '';
+      t.title = x.trackName || t.title;
+      t.artist = x.artistName || t.artist;
+      t.album = x.collectionName || t.album;
+      t.art = art600(x.artworkUrl100 || t.art);
+      t.duration = x.trackTimeMillis || 30000;
+      t.genre = x.primaryGenreName || t.genre;
+      if(x.collectionId) t.embed = 'https://embed.music.apple.com/in/album/' + x.collectionId + '?i=' + x.trackId;
+    });
+  }catch(e){ /* charts still render without previews */ }
+
+  var label = genreId === GENRE.punjabi ? 'Punjabi' : genreId === GENRE.bollywood ? 'Bollywood' : 'India';
+  statusEl.textContent = 'Top ' + base.length + ' · ' + label + ' (Apple Top Songs chart)';
+  render(base.filter(function(t){ return t.preview; }));
+}
+
+function render(tracks){
+  list.innerHTML = '';
+  tracks.forEach(function(t, i){
+    var row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;gap:12px;padding:9px;border-radius:11px;transition:background .15s';
+    row.onmouseenter = function(){ if(row!==activeRow) row.style.background='#161624'; };
+    row.onmouseleave = function(){ if(row!==activeRow) row.style.background='transparent'; };
+
+    var mid = document.createElement('div');
+    mid.style.cssText = 'flex:1;min-width:0;cursor:pointer';
+    mid.innerHTML =
+      '<div style="font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'
+        + (mode !== 'search' ? '<span style="color:#5d5d72;font-weight:700;margin-right:7px">' + (i+1) + '</span>' : '')
+        + esc(t.title) + '</div>' +
+      '<div style="font-size:12px;color:#8b8b9c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'
+        + esc(t.artist) + (t.album ? ' · ' + esc(t.album) : '')
+        + (t.genre ? ' <span style="color:#ff9500;opacity:.7">· ' + esc(t.genre) + '</span>' : '') + '</div>';
+
+    var dur = document.createElement('span');
+    dur.style.cssText = 'font-size:11.5px;color:#6f6f85;flex:0 0 auto';
+    dur.textContent = fmt(t.duration);
+
+    var play = document.createElement('button');
+    play.style.cssText = 'width:32px;height:32px;border-radius:50%;border:1px solid #26263a;background:#14141f;color:#c9c9d8;font-size:12px;cursor:pointer;flex:0 0 auto';
+    play.textContent = '▶'; play.title = '30-second preview';
+
+    var full = document.createElement('button');
+    full.style.cssText = 'padding:0 10px;height:32px;border-radius:16px;border:1px solid #3a2a10;background:#241a08;color:#ffb340;font-size:11.5px;font-weight:700;cursor:pointer;flex:0 0 auto';
+    full.textContent = 'Full'; full.title = 'Play the full song in the official Apple Music player';
+    full.onclick = function(e){
+      e.stopPropagation();
+      if(!t.embed) return;
+      embedBox.innerHTML = '<iframe allow="autoplay *; encrypted-media *; clipboard-write" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation" src="' + t.embed + '" height="175" frameborder="0" style="width:100%;border-radius:12px;border:0"></iframe>';
+      modal.style.display = 'flex';
+    };
+
+    play.onclick = function(e){ e.stopPropagation(); if(t.preview) play_(t, row); };
+    mid.onclick = function(){ if(t.preview) play_(t, row); };
+
+    if(!t.preview){ play.style.opacity = '.35'; play.style.cursor='default'; }
+
+    row.appendChild((function(){
+      var img = document.createElement('img');
+      img.src = t.art || ph(); img.alt='';
+      img.style.cssText='width:48px;height:48px;border-radius:7px;object-fit:cover;background:#22222f;flex:0 0 auto';
+      img.onerror=function(){ img.src = ph(); };
+      return img;
+    })());
+    row.appendChild(mid); row.appendChild(dur); row.appendChild(play); row.appendChild(full);
+    list.appendChild(row);
+  });
+}
+
+function play_(t, row){
+  if(t.key === currentKey && !audio.paused){ audio.pause(); return; }
+  currentKey = t.key;
+  if(activeRow) activeRow.style.background = 'transparent';
+  activeRow = row; row.style.background = '#161624';
+  bar.style.transform = 'translateY(0)';
+  barTitle.textContent = t.title;
+  barArtist.textContent = t.artist + (t.album ? ' · ' + t.album : '');
+  barArt.src = t.art || ph();
+  if(audio.src !== t.preview) audio.src = t.preview;
+  audio.play().catch(function(){ statusEl.textContent = 'Preview unavailable for this track.'; });
+}
+
+function setTab(m){
+  mode = m;
+  Array.prototype.forEach.call(document.querySelectorAll('.tab'), function(b){
+    var on = b.getAttribute('data-tab') === m;
+    b.style.background = on ? '#ff9500' : 'transparent';
+    b.style.color = on ? '#1a0f00' : '#8b8b9c';
+  });
+  searchWrap.style.display = (m === 'search') ? 'flex' : 'none';
+  list.innerHTML = '';
+  statusEl.textContent = 'Loading…';
+  if(m === 'search'){ statusEl.textContent = 'Search any Hindi or Punjabi artist, song, or film.'; return; }
+  charts(GENRE[m]);
+}
+
+toggle.onclick = function(){ if(!audio.src) return; if(audio.paused) audio.play(); else audio.pause(); };
+audio.onplay = function(){ toggle.textContent = '❚❚'; };
+audio.onpause = function(){ toggle.textContent = '▶'; };
+audio.ontimeupdate = function(){ if(audio.duration && isFinite(audio.duration)) prog.style.width = (audio.currentTime/audio.duration*100)+'%'; };
+audio.onended = function(){ prog.style.width='0%'; toggle.textContent='▶'; };
+audio.onerror = function(){ statusEl.textContent = 'Preview could not be loaded — try another track.'; };
+
+document.getElementById('closeModal').onclick = function(){ modal.style.display='none'; embedBox.innerHTML=''; };
+modal.onclick = function(e){ if(e.target === modal){ modal.style.display='none'; embedBox.innerHTML=''; } };
+
+document.getElementById('go').onclick = function(){ if(q.value.trim()) search(q.value.trim()); };
+q.addEventListener('keydown', function(e){ if(e.key === 'Enter' && q.value.trim()) search(q.value.trim()); });
+Array.prototype.forEach.call(document.querySelectorAll('.tab'), function(b){
+  b.onclick = function(){ setTab(b.getAttribute('data-tab')); };
+});
+
+q.value = 'Diljit Dosanjh';
+setTab('punjabi');   // land on a working chart so the page is never empty
+</script>
+</body>
+</html>
